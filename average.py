@@ -11,16 +11,17 @@ class ListTemp:
         self.templist = []
         self.rollinglist = []
         self.id = sensorid
+        if sensorid == 1:
+            self.sensor = Temperature_Sensor()
         
     def getList(self) -> list:
         return self.templist
 
     def getSensorTemp(self) -> float:
-        sensor = Temperature_Sensor()
         if self.id == 0:
-            return float(random.randint(260,300))/10.0
+            return float(random.randint(10,80))/10.0
         elif self.id == 1:
-            return sensor.avg_temp()
+            return self.sensor.avg_temp()
         else:
             print("Please input a valid Sensor ID")
 
