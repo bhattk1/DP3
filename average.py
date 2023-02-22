@@ -19,7 +19,7 @@ class ListTemp:
 
     def getSensorTemp(self) -> float:
         if self.id == 0:
-            return float(random.randint(10,80))/10.0
+            return float(random.randint(290,300))/10.0
         elif self.id == 1:
             return self.sensor.avg_temp()
         else:
