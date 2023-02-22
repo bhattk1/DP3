@@ -2,16 +2,12 @@ from sensor_library import *
 
 from average import ListTemp
 
+from actuator import Actuator
+
 import time
 
 from multiprocessing import Process as proc
 from multiprocessing import Value as val
-
-from gpiozero import Servo
-import gpiozero
-import time
-import sys
-from gpiozero.pins.pigpio import PiGPIOFactory
 
 standardList = ListTemp(0)
 injuredList = ListTemp(1)
@@ -72,8 +68,11 @@ if __name__ == "__main__":
 
     print(svalue.value)
     print(ivalue.value)
+    servo = Actuator(14)
 
     if svalue.value < ivalue.value:
         print("Servo activated")
+        servo.max()
     else:
         print("Go next")
+        servo.min()
