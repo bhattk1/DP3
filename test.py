@@ -1,5 +1,7 @@
 from sensor_library import *
 
+from write_temp import Temp_To_Txt as Parser
+
 from average import ListTemp
 
 from actuator import Actuator
@@ -14,27 +16,21 @@ injuredList = ListTemp(1)
 
 def standardListInit(rolling,total,rolling_avg):
     standardList.getRollingTemp(rolling,total)
-    ##print(standardList.rollinglist)
     ri = standardList.rollinglist
 
     standard_avg = 0
 
     for x in standardList.rollinglist:
         standard_avg += x
-
-    print(standard_avg)
     
     rolling_avg.value = standard_avg/len(standardList.rollinglist)
 
 def injuredListInit(rolling,total,rolling_avg):
     injuredList.getRollingTemp(rolling,total)
-    print(injuredList.rollinglist)
     injured_avg = 0
 
     for x in injuredList.rollinglist:
         injured_avg += x
-
-    print(injured_avg)
     
     rolling_avg.value = injured_avg/len(injuredList.rollinglist)
 
@@ -64,11 +60,18 @@ if __name__ == "__main__":
 
     stop = time.perf_counter()
 
-    print(stop-start)
+    print("Total Time Elapsed: ", stop-start)
 
-    print(svalue.value)
-    print(ivalue.value)
+    print("Standard Avg Temp" + svalue.value)
+    print("Injured Avg Temp" + ivalue.value)
     servo = Actuator(14)
+
+    parser = Parser()
+
+    sval = round(svalue.value,2)
+    ival = round(ivalue.value,2)
+
+    parser.write_two_to_file(sval,ival)
 
     if svalue.value < ivalue.value:
         print("Servo activated")
