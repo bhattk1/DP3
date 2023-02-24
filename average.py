@@ -11,16 +11,17 @@ class ListTemp:
         self.templist = []
         self.rollinglist = []
         self.id = sensorid
+        if sensorid == 1:
+            self.sensor = Temperature_Sensor()
         
     def getList(self) -> list:
         return self.templist
 
     def getSensorTemp(self) -> float:
-        sensor = Temperature_Sensor()
         if self.id == 0:
-            return float(random.randint(260,300))/10.0
+            return float(random.randint(290,300))/10.0
         elif self.id == 1:
-            return sensor.avg_temp()
+            return self.sensor.avg_temp()
         else:
             print("Please input a valid Sensor ID")
 
@@ -33,7 +34,7 @@ class ListTemp:
             try:
                 if len(self.templist) == rolling_interval:
                     avg = 0
-                    for x in range(0,len(self.templist)-1):
+                    for x in range(0,len(self.templist)):
                         avg += self.templist[x]
                     avg = avg/len(self.templist)
                     self.rollinglist.append(avg)

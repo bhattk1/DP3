@@ -1,13 +1,11 @@
-from gpiozero import Servo
-import gpiozero
-import time
-import sys
-from gpiozero.pins.pigpio import PiGPIOFactory
+from sensor_library import *
 
-gpiozero.Device.pin_factory = PiGPIOFactory('127.0.0.1')
+def main():
+    sensor = Temperature_Sensor()
+    try:
+        while True:
+            print(sensor.avg_temp())
+    except KeyboardInterrupt:
+        print("Forced Exit")
 
-servo = Servo(14)
-
-servo.min()
-time.sleep(1)
-servo.max()
+main()

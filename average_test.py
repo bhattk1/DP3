@@ -31,7 +31,7 @@ class ListTemp:
             try:
                 if len(self.templist) == rolling_interval:
                     avg = 0
-                    for x in range(0,len(self.templist)-1):
+                    for x in range(0,len(self.templist)):
                         avg += self.templist[x]
                     avg = avg/len(self.templist)
                     self.rollinglist.append(avg)
