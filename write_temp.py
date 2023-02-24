@@ -35,3 +35,19 @@ class Temp_To_Txt:
         with open(abs_file_path, "a") as f:
             f.write(current_time + ":\t" + str(item) + "\n")
             f.close()
+
+    def write_two_to_file(self,item,item2):
+        current_date = str(date.today())
+
+        file_name = "Temperature_Data_" + current_date + ".txt"
+
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        
+        script_dir = os.path.dirname(__file__)
+        rel_path = "data\\" + file_name
+        abs_file_path = os.path.join(script_dir, rel_path)
+
+        with open(abs_file_path, "a") as f:
+            f.write(current_time + "\tStandard: " + str(item) + "\tInjured: " + str(item2) + "\n")
+            f.close()
