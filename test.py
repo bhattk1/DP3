@@ -40,12 +40,15 @@ if __name__ == "__main__":
     ivalue = val('d',0.0)
 
     start = time.perf_counter()
+
     jobs = []
+    
     process1 = proc(
             target=standardListInit,
         args=(2,10,svalue)
     )
     jobs.append(process1)
+
     process2 = proc(
             target=injuredListInit,
         args=(2,10,ivalue)
