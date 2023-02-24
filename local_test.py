@@ -1,5 +1,7 @@
 ##from sensor_library import *
 
+from write_temp import Temp_To_Txt as Parser
+
 from average_test import ListTemp
 
 import time
@@ -7,6 +9,8 @@ import time
 from multiprocessing import Process as proc
 
 from multiprocessing import Value as val
+
+import math
 
 standardList = ListTemp(0)
 injuredList = ListTemp(1)
@@ -67,6 +71,13 @@ if __name__ == "__main__":
 
     print(svalue.value)
     print(ivalue.value)
+
+    parser = Parser()
+
+    sval = round(svalue.value,2)
+    ival = round(ivalue.value,2)
+
+    parser.write_two_to_file(sval,ival)
 
     if svalue.value < ivalue.value:
         print("Servo activated")
