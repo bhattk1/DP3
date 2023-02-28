@@ -117,8 +117,8 @@ if __name__ == "__main__":
 
     print("Total Time Elapsed: ", stop-start)
 
-    print("Standard Avg Temp" + svalue.value)
-    print("Injured Avg Temp" + ivalue.value)
+    print("Standard Avg Temp", svalue.value)
+    print("Injured Avg Temp", ivalue.value)
     servo = Actuator(14)
 
     parser = Parser()
