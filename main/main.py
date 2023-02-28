@@ -87,50 +87,64 @@ def injuredListInit(rolling,total,rolling_avg):
     rolling_avg.value = injured_avg/len(injuredList.rollinglist)
 
 if __name__ == "__main__":
+    try:
+        for x in range(0,2):
+            button_status = True
+            while button_status:
 
-    svalue = val('d',0.0)
-    ivalue = val('d',0.0)
+                svalue = val('d',0.0)
+                ivalue = val('d',0.0)
 
-    start = time.perf_counter()
+                start = time.perf_counter()
 
-    jobs = []
-    
-    process1 = proc(
-            target=standardListInit,
-        args=(2,10,svalue)
-    )
-    jobs.append(process1)
+                jobs = []
+                
+                process1 = proc(
+                        target=standardListInit,
+                    args=(2,10,svalue)
+                )
+                jobs.append(process1)
 
-    process2 = proc(
-            target=injuredListInit,
-        args=(2,10,ivalue)
-    )
-    jobs.append(process2)
+                process2 = proc(
+                        target=injuredListInit,
+                    args=(2,10,ivalue)
+                )
+                jobs.append(process2)
 
-    for j in jobs:
-        j.start()
+                for j in jobs:
+                    j.start()
 
-    for j in jobs:
-        j.join()
+                for j in jobs:
+                    j.join()
 
-    stop = time.perf_counter()
+                stop = time.perf_counter()
 
-    print("Total Time Elapsed: ", stop-start)
+                print("Total Time Elapsed: ", stop-start)
 
-    print("Standard Avg Temp", svalue.value)
-    print("Injured Avg Temp", ivalue.value)
-    servo = Actuator(14)
+                print("Standard Avg Temp", svalue.value)
+                print("Injured Avg Temp", ivalue.value)
+                servo = Actuator(14)
 
-    parser = Parser()
+                parser = Parser()
 
-    sval = round(svalue.value,2)
-    ival = round(ivalue.value,2)
+                sval = round(svalue.value,2)
+                ival = round(ivalue.value,2)
 
-    parser.write_two_to_file(sval,ival)
+                parser.write_two_to_file(sval,ival)
 
-    if svalue.value < ivalue.value:
-        print("Servo activated")
-        servo.max()
-    else:
-        print("Go next")
-        servo.min()
+                if svalue.value < ivalue.value:
+                    print("Servo activated")
+                    servo.max()
+                else:
+                    print("Go next")
+                    servo.min()
+
+                button_status = False
+                time.sleep(1)
+
+            while not button_status:
+                print("Button off")
+                button_status = True
+                time.sleep(1)
+    except:
+        sys.exit()        
