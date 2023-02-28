@@ -138,10 +138,13 @@ if __name__ == "__main__":
 
                 if svalue.value < ivalue.value:
                     print("Servo activated")
-                    servo.max()
+                    servo.min()
+                    print("sleep")
+                    time.sleep(5)
+                    print("unsleep")
                 else:
                     print("Go next")
-                    servo.min()
+                    servo.max()
 
                 button_status = False
 
