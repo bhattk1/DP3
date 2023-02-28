@@ -3,7 +3,7 @@ import time
 import math
 import random
 from typing import Union
-from sensor_library import *
+from main.sensor_library import *
 
 class ListTemp:
     

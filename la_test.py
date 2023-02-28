@@ -1,4 +1,4 @@
-from sensor_library import *
+from main.sensor_library import *
 
 def main():
     sensor = Temperature_Sensor()

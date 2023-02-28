@@ -1,4 +1,4 @@
-from sensor_library import *
+from main.sensor_library import *
 
 from write_temp import Temp_To_Txt as Parser
 
