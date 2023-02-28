@@ -1,3 +1,5 @@
+##Note: The code will have to be run on a Command Line or Terminal on a Raspberry Pi, not IDLE since it does not support the multiprocessing functions.
+
 from sensor_library import *
 
 import time,random
@@ -63,12 +65,9 @@ class Actuator:
 from multiprocessing import Process as proc
 from multiprocessing import Value as val
 
-standardList = ListTemp(0)
-injuredList = ListTemp(1)
 
 def standardListInit(rolling,total,rolling_avg):
     standardList.getRollingTemp(rolling,total)
-    ri = standardList.rollinglist
 
     standard_avg = 0
 
@@ -88,7 +87,10 @@ def injuredListInit(rolling,total,rolling_avg):
 
 if __name__ == "__main__":
     try:
+        servo = Actuator(14)
         for x in range(0,2):
+            standardList = ListTemp(0)
+            injuredList = ListTemp(1)
             button_status = True
             while button_status:
 
@@ -101,13 +103,13 @@ if __name__ == "__main__":
                 
                 process1 = proc(
                         target=standardListInit,
-                    args=(2,10,svalue)
+                    args=(2,30,svalue)
                 )
                 jobs.append(process1)
 
                 process2 = proc(
                         target=injuredListInit,
-                    args=(2,10,ivalue)
+                    args=(2,30,ivalue)
                 )
                 jobs.append(process2)
 
@@ -117,13 +119,15 @@ if __name__ == "__main__":
                 for j in jobs:
                     j.join()
 
+                for j in jobs:
+                    j.terminate()
+
                 stop = time.perf_counter()
 
                 print("Total Time Elapsed: ", stop-start)
 
                 print("Standard Avg Temp", svalue.value)
                 print("Injured Avg Temp", ivalue.value)
-                servo = Actuator(14)
 
                 parser = Parser()
 
@@ -140,11 +144,10 @@ if __name__ == "__main__":
                     servo.min()
 
                 button_status = False
-                time.sleep(1)
 
             while not button_status:
                 print("Button off")
                 button_status = True
-                time.sleep(1)
+
     except:
         sys.exit()        
