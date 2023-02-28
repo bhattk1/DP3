@@ -45,7 +45,7 @@ class Temp_To_Txt:
         current_time = now.strftime("%H:%M:%S")
         
         script_dir = os.path.dirname(__file__)
-        rel_path = "data\\" + file_name
+        rel_path = "data/" + file_name
         abs_file_path = os.path.join(script_dir, rel_path)
 
         with open(abs_file_path, "a") as f:
