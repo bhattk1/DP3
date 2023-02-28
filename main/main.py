@@ -12,9 +12,6 @@ class ListTemp:
         self.id = sensorid
         if sensorid == 1:
             self.sensor = Temperature_Sensor()
-        
-    def getList(self) -> list:
-        return self.templist
 
     def getSensorTemp(self) -> float:
         if self.id == 0:
