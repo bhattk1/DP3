@@ -1,6 +1,6 @@
 ##from sensor_library import *
 
-from write_temp import Temp_To_Txt as Parser
+from main.write_temp import Temp_To_Txt as Parser
 
 from average_test import ListTemp
 
@@ -50,12 +50,12 @@ if __name__ == "__main__":
     jobs = []
     process1 = proc(
             target=standardListInit,
-        args=(2,10,svalue)
+        args=(5,20,svalue)
     )
     jobs.append(process1)
     process2 = proc(
             target=injuredListInit,
-        args=(2,10,ivalue)
+        args=(5,20,ivalue)
     )
     jobs.append(process2)
 
