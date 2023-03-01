@@ -51,6 +51,7 @@ from gpiozero.pins.pigpio import PiGPIOFactory
 class Actuator:
 
     def __init__(self,gpioid):
+        gpiozero.Device.pin_factory = PiGPIOFactory('127.0.0.1')
         self.id = gpioid
         self.servo = Servo(gpioid)
 
@@ -65,6 +66,7 @@ class Actuator:
 class Button:
 
     def __init__(self,gpioid):
+        gpiozero.Device.pin_factory = PiGPIOFactory('127.0.0.1')
         self.id = gpioid
         self.button = gpioButton(gpioid)
 
@@ -105,25 +107,8 @@ def cont_check_button(gpioid,button_state):
             time.sleep(1)
             print("Button pressed")
 
-def cont_check_hold_button(gpioid,time_hold):
-    button = Button(gpioid)
-    while True:
-        if button.check_press():
-            for x in range(0,time_hold+1):
-                if button.check_press():
-                    if x == time_hold:
-                        print("Button Held, System Forced Exit")
-                        sys.exit()
-                else:
-                    break
-
-
-    
-
 if __name__ == "__main__":
     try:
-        TIME_HOLD_BUTTON = 3
-        gpiozero.Device.pin_factory = PiGPIOFactory('127.0.0.1')
         servo = Actuator(17)
         button_status = val('b',False)
         button_job = proc(
@@ -131,11 +116,6 @@ if __name__ == "__main__":
                 args=(19,button_status)
             )
         button_job.start()
-        button_job_hold = proc(
-                    target = cont_check_hold_button,
-                args=(19,TIME_HOLD_BUTTON)
-            )
-        button_job_hold.start()
         while True:
             standardList = ListTemp(0)
             injuredList = ListTemp(1)

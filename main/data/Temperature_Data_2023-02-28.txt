@@ -67,3 +67,17 @@
 =======
 20:35:27	Standard: 28.12	Injured: 27.27
 >>>>>>> 7bb952267267709433f9cc332e29012cb771250d
+21:16:34	Standard: 29.54	Injured: 20.6
+21:24:34	Standard: 29.55	Injured: 23.03
+21:28:41	Standard: 29.57	Injured: 20.88
+21:28:53	Standard: 29.61	Injured: 20.83
+21:29:06	Standard: 29.56	Injured: 25.25
+21:29:18	Standard: 29.49	Injured: 25.8
+21:32:54	Standard: 29.44	Injured: 21.1
+21:33:25	Standard: 29.61	Injured: 24.67
+21:36:38	Standard: 29.35	Injured: 20.43
+21:36:49	Standard: 29.46	Injured: 20.87
+21:37:01	Standard: 29.39	Injured: 20.64
+21:37:12	Standard: 29.57	Injured: 28.47
+21:37:24	Standard: 29.58	Injured: 36.99
+21:37:40	Standard: 29.73	Injured: 22.57
