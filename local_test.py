@@ -25,13 +25,11 @@ def standardListInit(rolling,total,rolling_avg):
     for x in standardList.rollinglist:
         standard_avg += x
 
-    print(standard_avg)
     
     rolling_avg.value = standard_avg/len(standardList.rollinglist)
 
 def injuredListInit(rolling,total,rolling_avg):
     injuredList.getRollingTemp(rolling,total)
-    print(injuredList.rollinglist)
     injured_avg = 0
 
     for x in injuredList.rollinglist:

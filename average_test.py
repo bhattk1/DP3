@@ -35,8 +35,24 @@ class ListTemp:
                         avg += self.templist[x]
                     avg = avg/len(self.templist)
                     self.rollinglist.append(avg)
+                    self.print_styled(avg)
                     self.templist.pop(0)
             except ZeroDivisionError:
                 print("Please input a list of temperatures.")
                 return None
             time.sleep(1)
+
+    def print_styled(self,avg):
+        str_id = ""
+        if self.id == 0:
+            str_id = "Standard Temperatures"
+        else:
+            str_id = "Injured Temperatures"
+        print("------",str_id,"-----")
+        print("[ ",end=" ")
+        for x in self.templist:
+            print(x,end=" ")
+        print("]")
+        print("Rolling Avg:",round(avg,2))
+        print("----------------------------------")
+        

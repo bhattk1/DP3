@@ -82,3 +82,5 @@
 21:37:24	Standard: 29.58	Injured: 36.99
 21:37:40	Standard: 29.73	Injured: 22.57
 22:48:27	Standard: 29.37	Injured: 21.25
+23:57:36	Standard: 27.8	Injured: 28.12
+23:58:07	Standard: 28.18	Injured: 27.87
