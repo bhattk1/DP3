@@ -215,6 +215,7 @@ if __name__ == "__main__":
             if button_status_hold.value:
                 button_job2.terminate()
                 main_job.terminate()
+                print("Forced Exit")
                 sys.exit()
 
     except:
