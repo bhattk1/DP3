@@ -48,7 +48,7 @@ class ListTemp:
         if self.id == 0:
             str_id = "Standard Temperatures"
         else:
-            str_id = "Injured Temperatures"
+            str_id = "Injured Temperatures "
         print("------",str_id,"-----")
         print("[",end=" ")
         for x in self.templist:
