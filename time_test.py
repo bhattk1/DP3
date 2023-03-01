@@ -1,6 +1,12 @@
-from datetime import datetime
+from actuator import Actuator
+import time
 
-now = datetime.now()
+time.sleep(1)
 
-current_time = now.strftime("%H:%M:%S")
-print("Current Time =", current_time)
+la = Actuator(17)
+
+for x in range(0,5):
+    la.min()
+    time.sleep(3)
+    la.max()
+    time.sleep(3)

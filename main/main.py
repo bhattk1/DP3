@@ -36,13 +36,14 @@ class ListTemp:
                         avg += self.templist[x]
                     avg = avg/len(self.templist)
                     self.rollinglist.append(avg)
-                    self.templist = []
+                    self.templist.pop(0)
             except ZeroDivisionError:
                 print("Please input a list of temperatures.")
                 return None
             time.sleep(1)
 
 from gpiozero import Servo
+from gpiozero import Button as gpioButton
 import gpiozero
 import sys
 from gpiozero.pins.pigpio import PiGPIOFactory
@@ -61,6 +62,19 @@ class Actuator:
     def max(self):
         self.servo.max()
         time.sleep(1)
+
+class Button:
+
+    def __init__(self,gpioid):
+        gpiozero.Device.pin_factory = PiGPIOFactory('127.0.0.1')
+        self.id = gpioid
+        self.button = gpioButton(gpioid)
+
+    def check_press(self):
+        if self.button.is_pressed:
+            return True
+        else:
+            return False
 
 from multiprocessing import Process as proc
 from multiprocessing import Value as val
@@ -85,14 +99,28 @@ def injuredListInit(rolling,total,rolling_avg):
     
     rolling_avg.value = injured_avg/len(injuredList.rollinglist)
 
+def cont_check_button(gpioid,button_state):
+    button = Button(gpioid)
+    while True:
+        if button.check_press():
+            button_state.value = not button_state.value
+            time.sleep(1)
+            print("Button pressed")
+
 if __name__ == "__main__":
     try:
-        servo = Actuator(14)
-        for x in range(0,2):
+        servo = Actuator(17)
+        button_status = val('b',False)
+        button_job = proc(
+                    target = cont_check_button,
+                args=(19,button_status)
+            )
+        button_job.start()
+        while True:
             standardList = ListTemp(0)
             injuredList = ListTemp(1)
-            button_status = True
-            while button_status:
+
+            while button_status.value:
 
                 svalue = val('d',0.0)
                 ivalue = val('d',0.0)
@@ -103,13 +131,13 @@ if __name__ == "__main__":
                 
                 process1 = proc(
                         target=standardListInit,
-                    args=(2,30,svalue)
+                    args=(2,10,svalue)
                 )
                 jobs.append(process1)
 
                 process2 = proc(
                         target=injuredListInit,
-                    args=(2,30,ivalue)
+                    args=(2,10,ivalue)
                 )
                 jobs.append(process2)
 
@@ -138,19 +166,19 @@ if __name__ == "__main__":
 
                 if svalue.value < ivalue.value:
                     print("Servo activated")
-                    servo.min()
+                    servo.max()
                     print("sleep")
                     time.sleep(5)
                     print("unsleep")
                 else:
                     print("Go next")
-                    servo.max()
+                    servo.min()
 
-                button_status = False
+                
 
-            while not button_status:
+            while not button_status.value:
                 print("Button off")
-                button_status = True
+                time.sleep(3)
 
     except:
         sys.exit()        
