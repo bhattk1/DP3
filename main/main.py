@@ -99,13 +99,24 @@ def injuredListInit(rolling,total,rolling_avg):
     
     rolling_avg.value = injured_avg/len(injuredList.rollinglist)
 
-def cont_check_button(gpioid,button_state):
+def cont_check_button(gpioid,button_state,time_hold):
     button = Button(gpioid)
     while True:
         if button.check_press():
             button_state.value = not button_state.value
             time.sleep(1)
             print("Button pressed")
+            for x in range(0,time_hold+1):
+                if button.check_press():
+                    if x == time_hold:
+                        try:
+                            raise KeyboardInterrupt
+                        except KeyboardInterrupt:
+                            print("Button Held, System Forced Exit")
+                else:
+                    break
+                time.sleep(1)
+
 
 if __name__ == "__main__":
     try:
@@ -116,6 +127,7 @@ if __name__ == "__main__":
                 args=(19,button_status)
             )
         button_job.start()
+
         while True:
             standardList = ListTemp(0)
             injuredList = ListTemp(1)
@@ -181,4 +193,4 @@ if __name__ == "__main__":
                 time.sleep(3)
 
     except:
-        sys.exit()        
+        sys.exit()
