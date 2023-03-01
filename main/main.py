@@ -79,6 +79,8 @@ class Button:
 from multiprocessing import Process as proc
 from multiprocessing import Value as val
 
+standardList = ListTemp(0)
+injuredList = ListTemp(1)
 
 def standardListInit(rolling,total,rolling_avg):
     standardList.getRollingTemp(rolling,total)
@@ -99,26 +101,27 @@ def injuredListInit(rolling,total,rolling_avg):
     
     rolling_avg.value = injured_avg/len(injuredList.rollinglist)
 
-def cont_check_button(gpioid,button_state,time_hold):
+def cont_check_button(gpioid,button_state):
     button = Button(gpioid)
     while True:
         if button.check_press():
             button_state.value = not button_state.value
-            time.sleep(1)
+            time.sleep(2)
             print("Button pressed")
-            for x in range(0,time_hold+1):
-                if button.check_press():
-                    if x == time_hold:
-                        try:
-                            raise KeyboardInterrupt
-                        except KeyboardInterrupt:
-                            print("Button Held, System Forced Exit")
-                else:
+
+def cont_check_button_hold(gpioid,time_hold,button_state):
+    button = Button(gpioid)
+    while True:
+        for x in range(0,time_hold+1):
+            if button.check_press():
+                if x == time_hold:
+                    button_state.value = True
                     break
-                time.sleep(1)
+            else:
+                break
+            time.sleep(1)
 
-
-if __name__ == "__main__":
+def main():
     try:
         servo = Actuator(17)
         button_status = val('b',False)
@@ -129,8 +132,6 @@ if __name__ == "__main__":
         button_job.start()
 
         while True:
-            standardList = ListTemp(0)
-            injuredList = ListTemp(1)
 
             while button_status.value:
 
@@ -191,6 +192,30 @@ if __name__ == "__main__":
             while not button_status.value:
                 print("Button off")
                 time.sleep(3)
+
+    except:
+        sys.exit()
+
+if __name__ == "__main__":
+    try:
+        button_status_hold = val('b',False)
+        button_job2 = proc(
+                    target = cont_check_button_hold,
+                args=(19,3,button_status_hold)
+            )
+        button_job2.start()
+
+        main_job = proc(
+                target = main
+        )
+
+        main_job.start()
+
+        while True:
+            if button_status_hold.value:
+                button_job2.terminate()
+                main_job.terminate()
+                sys.exit()
 
     except:
         sys.exit()
