@@ -35,7 +35,7 @@ class ListTemp:
                         avg += self.templist[x]
                     avg = avg/len(self.templist)
                     self.rollinglist.append(avg)
-                    self.templist = []
+                    self.templist.pop(0)
             except ZeroDivisionError:
                 print("Please input a list of temperatures.")
                 return None
